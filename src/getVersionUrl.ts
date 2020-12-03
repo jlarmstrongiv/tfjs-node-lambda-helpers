@@ -1,4 +1,4 @@
-import version from 'tfjs-node-lambda/package.json';
+import { version } from 'tfjs-node-lambda/package.json';
 import { validateOptions } from './validateOptions';
 
 export function getVersionUrl(
