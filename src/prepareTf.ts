@@ -28,7 +28,7 @@ async function loadBinary() {
 }
 
 async function loadInitial() {
-  await loadTf();
+  await loadTf(fs.createReadStream(path.join(os.tmpdir(), 'tfjs-node.br')));
   // cleanup
   await fs.remove(path.join(os.tmpdir(), 'tfjs-node.br'));
 
