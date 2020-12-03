@@ -46,6 +46,6 @@ Our goals:
 
 - No configuration
 - Fast development experience
-- Lambda often times out on initial load
+- Prevent Lambda from timing out on initial load
 
 Read the [source code](https://github.com/jlarmstrongiv/tfjs-node-lambda-helpers#readme).
