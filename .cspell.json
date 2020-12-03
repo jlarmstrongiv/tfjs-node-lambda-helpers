@@ -1,0 +1,22 @@
+{
+  "ignoreWords": [
+    "commitlint",
+    "jsdelivr",
+    "tensorflow",
+    "tfjs",
+    "tsdx",
+    "typeof"
+  ],
+  "ignorePaths": [
+    "**/.cspell.json",
+    "**/package-lock.json",
+    "**/.gitignore",
+    "**/.prettierignore",
+    "**/node_modules/**",
+    ".github/actions/*/dist/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    ".vscode",
+    "**/tsconfig.json"
+  ]
+}

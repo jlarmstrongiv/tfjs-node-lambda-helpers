@@ -1,0 +1,10 @@
+[
+  {
+    "path": "dist/tfjs-node-lambda-helpers.cjs.production.min.js",
+    "limit": "10 KB"
+  },
+  {
+    "path": "dist/tfjs-node-lambda-helpers.esm.js",
+    "limit": "10 KB"
+  }
+]
