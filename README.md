@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 ## Behind the scenes
 
-The problems we are trying to solve:
+Our goals:
 
 - No configuration
 - Fast development experience
