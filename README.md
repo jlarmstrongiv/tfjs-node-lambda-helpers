@@ -27,7 +27,7 @@ import loadTf from 'tfjs-node-lambda';
 import {prepareTf} from 'tfjs-node-lambda-helpers';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const ready = await prepareTs.next();
+  const ready = await prepareTf.next();
   if (ready.value) {
     return res.status(ready.value.statusCode).json(ready.value);
   }
