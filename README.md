@@ -22,9 +22,9 @@ npm install --save-dev --save-exact tfjs-node-lambda-releases @tensorflow/tfjs-n
 Important note: the lambda will return a `503 SERVICE_UNAVAILABLE` error until `tf` is fully loaded to prevent errors from timing out. On the client, simply retry the request until the lambda is ready.
 
 ```ts
-import type { NextApiRequest, NextApiResponse } from 'next';
-import loadTf from 'tfjs-node-lambda';
-import {prepareTf} from 'tfjs-node-lambda-helpers';
+import type { NextApiRequest, NextApiResponse } from "next";
+import loadTf from "tfjs-node-lambda";
+import { prepareTf } from "tfjs-node-lambda-helpers";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const ready = await prepareTf.next();
@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(ready.value.statusCode).json(ready.value);
   }
 
-  const tf: typeof import('@tensorflow/tfjs') = await loadTf();
+  const tf: typeof import("@tensorflow/tfjs") = await loadTf();
 
   tf.tensor([1, 2, 3, 4]).print();
 
