@@ -8,7 +8,9 @@
     "tensorflow",
     "tfjs",
     "tsdx",
-    "typeof"
+    "typeof",
+    "VERCEL",
+    "Vercel’s"
   ],
   "ignorePaths": [
     "**/.cspell.json",

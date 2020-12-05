@@ -43,6 +43,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 ### Lobe.ai
 
+In Vercel’s dashboard, be sure `Settings > Environment Variables > Automatically expose System Environment Variables` is checked so that `process.env.VERCEL_URL` is not undefined.
+
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
