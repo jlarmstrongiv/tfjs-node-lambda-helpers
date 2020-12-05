@@ -19,9 +19,9 @@ npm install --save-dev --save-exact tfjs-node-lambda-releases @tensorflow/tfjs-n
 
 ## Usage
 
-### Tensorflow
+Please note that the lambda will return a `503 SERVICE_UNAVAILABLE` error until `tf` is fully loaded to prevent errors from timing out. On the client, simply retry the request until the lambda is ready.
 
-Please the lambda will return a `503 SERVICE_UNAVAILABLE` error until `tf` is fully loaded to prevent errors from timing out. On the client, simply retry the request until the lambda is ready.
+### Tensorflow
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
