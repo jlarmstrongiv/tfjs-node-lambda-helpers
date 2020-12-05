@@ -79,6 +79,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 ```
 
+## Example
+
+Checkout a full example at [tfjs-node-lambda-example](https://github.com/jlarmstrongiv/tfjs-node-lambda-example).
+
 ## Behind the scenes
 
 Our goals:
