@@ -46,12 +46,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import { PrepareLobe } from "tfjs-node-lambda-helpers";
+import { PrepareLobe, isLambda } from "tfjs-node-lambda-helpers";
 
 const baseUrl = isLambda() ? `https://${process.env.VERCEL_URL}` : `http://localhost:3000`
 const prepareLobe = PrepareLobe(`${baseUrl}/static/model`)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
   const lobe = await prepareLobe.next();
   if (!lobe.done) {
     return res.status(lobe.value.statusCode).json(lobe.value);

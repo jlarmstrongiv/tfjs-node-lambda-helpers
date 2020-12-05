@@ -9,6 +9,10 @@ const baseUrl = isLambda() ? `https://${process.env.VERCEL_URL}` : `http://local
 const prepareLobe = PrepareLobe(`${baseUrl}/static/model`)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
   const lobe = await prepareLobe.next();
   if (!lobe.done) {
     return res.status(lobe.value.statusCode).json(lobe.value);
