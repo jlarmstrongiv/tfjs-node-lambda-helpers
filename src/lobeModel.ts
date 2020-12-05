@@ -3,6 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 import axios from "axios";
 import isUrl from "is-url";
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 interface SignatureData {
   doc_id: string;
@@ -32,6 +33,10 @@ interface SignatureData {
 }
 
 export class LobeModel {
+  // Property 'statusCode' does not exist on type '{ statusCode: StatusCodes; reason: ReasonPhrases; message: string; } | LobeModel'.
+  statusCode = StatusCodes.OK;
+  reasonPhrase = ReasonPhrases.OK;
+
   signature: any;
   // @ts-ignore: strictPropertyInitialization
   modelPath: string;
