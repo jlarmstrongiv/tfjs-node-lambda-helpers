@@ -1,6 +1,9 @@
 {
   "ignoreWords": [
+    "arraybuffer",
     "commitlint",
+    "dtype",
+    "eqeqeq",
     "jsdelivr",
     "tensorflow",
     "tfjs",

@@ -1,42 +1,12 @@
-import fs from 'fs-extra';
-import path from 'path';
-import os from 'os';
-import axios from 'axios';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import loadTf from 'tfjs-node-lambda';
 import { isLambda } from './isLambda';
-import { getVersionUrl } from './getVersionUrl';
+import { loadBinary } from './loadBinary';
+import { loadTensorflow } from './loadTensorflow';
+import { ReleaseOptions } from './getVersionUrl';
+import loadTf from 'tfjs-node-lambda';
 
 // https://javascript.info/async-iterators-generators#async-generators-finally
-async function* PrepareTf() {
-  if (isLambda()) yield loadBinary();
-  if (isLambda()) yield loadInitial();
+export async function* PrepareTf(options?: ReleaseOptions) {
+  if (isLambda()) yield loadBinary(options);
+  if (isLambda()) yield loadTensorflow();
+  return loadTf() as typeof import('@tensorflow/tfjs');
 }
-
-async function loadBinary() {
-  const response = await axios.get(getVersionUrl(), {
-    responseType: 'arraybuffer',
-  });
-
-  await fs.outputFile(path.join(os.tmpdir(), 'tfjs-node.br'), response.data);
-
-  return {
-    statusCode: StatusCodes.SERVICE_UNAVAILABLE,
-    reason: ReasonPhrases.SERVICE_UNAVAILABLE,
-    message: 'Loaded binary',
-  };
-}
-
-async function loadInitial() {
-  await loadTf(fs.createReadStream(path.join(os.tmpdir(), 'tfjs-node.br')));
-  // cleanup
-  await fs.remove(path.join(os.tmpdir(), 'tfjs-node.br'));
-
-  return {
-    statusCode: StatusCodes.SERVICE_UNAVAILABLE,
-    reason: ReasonPhrases.SERVICE_UNAVAILABLE,
-    message: 'Initial load',
-  };
-}
-
-export const prepareTf = PrepareTf();

@@ -19,24 +19,52 @@ npm install --save-dev --save-exact tfjs-node-lambda-releases @tensorflow/tfjs-n
 
 ## Usage
 
-Important note: the lambda will return a `503 SERVICE_UNAVAILABLE` error until `tf` is fully loaded to prevent errors from timing out. On the client, simply retry the request until the lambda is ready.
+### Tensorflow
+
+Please the lambda will return a `503 SERVICE_UNAVAILABLE` error until `tf` is fully loaded to prevent errors from timing out. On the client, simply retry the request until the lambda is ready.
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import loadTf from "tfjs-node-lambda";
-import { prepareTf } from "tfjs-node-lambda-helpers";
+import { PrepareTf } from "tfjs-node-lambda-helpers";
+const prepareTf = PrepareTf()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const ready = await prepareTf.next();
-  if (ready.value) {
+  if (!ready.done) {
     return res.status(ready.value.statusCode).json(ready.value);
   }
-
-  const tf: typeof import("@tensorflow/tfjs") = await loadTf();
+  const tf = ready.value;
 
   tf.tensor([1, 2, 3, 4]).print();
 
   return res.status(200).json({ version: tf.version });
+};
+```
+
+### Lobe.ai
+
+```ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
+import { PrepareLobe } from "tfjs-node-lambda-helpers";
+
+const baseUrl = isLambda() ? `https://${process.env.VERCEL_URL}` : `http://localhost:3000`
+const prepareLobe = PrepareLobe(`${baseUrl}/static/model`)
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const lobe = await prepareLobe.next();
+  if (!lobe.done) {
+    return res.status(lobe.value.statusCode).json(lobe.value);
+  }
+  const model = lobe.value;
+  const imageUrl = req.body.imageUrl;
+
+  const response = await axios.get(imageUrl, {
+    responseType: "arraybuffer",
+  });
+  const results = model.predict(response.data);
+
+  return res.status(200).json({ results: results.Confidences });
 };
 ```
 

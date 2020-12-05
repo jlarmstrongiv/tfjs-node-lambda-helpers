@@ -12,4 +12,7 @@ import matrix from 'tfjs-node-lambda/matrix.json';
 // export const cdns = ['github', 'jsdelivr', 'unpkg'];
 export const nodeVersions = matrix.lambda;
 export const tensorflowVersions = matrix.tensorflow;
-export { prepareTf } from './prepareTf';
+export { PrepareTf } from './prepareTf';
+export { PrepareLobe } from './prepareLobe';
+export { isLambda } from './isLambda';
+export { LobeModel } from './lobeModel';
