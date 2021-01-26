@@ -6,13 +6,14 @@ When using `tfjs-node-lambda`, you have to deal with environments, release urls,
 
 ```bash
 npm install --save --save-exact tfjs-node-lambda tfjs-node-lambda-helpers
-npm install --save-dev --save-exact tfjs-node-lambda-releases @tensorflow/tfjs-node @tensorflow/tfjs
+npm install --save-dev --save-exact @tensorflow/tfjs-node @tensorflow/tfjs
 ```
+
+<!-- tfjs-node-lambda-releases -->
 
 ### Related libraries
 
 - [tfjs-node-lambda](https://www.npmjs.com/package/tfjs-node-lambda)
-- [tfjs-node-lambda-releases](https://www.npmjs.com/package/tfjs-node-lambda-releases)
 - [tfjs-node-lambda-helpers](https://www.npmjs.com/package/tfjs-node-lambda-helpers)
 - [@tensorflow/tfjs-node](https://www.npmjs.com/package/@tensorflow/tfjs-node)
 - [@tensorflow/tfjs](https://www.npmjs.com/package/@tensorflow/tfjs)
@@ -24,9 +25,9 @@ Please note that the lambda will return a `503 SERVICE_UNAVAILABLE` error until 
 ### Tensorflow
 
 ```ts
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrepareTf } from "tfjs-node-lambda-helpers";
-const prepareTf = PrepareTf()
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrepareTf } from 'tfjs-node-lambda-helpers';
+const prepareTf = PrepareTf();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const ready = await prepareTf.next();
@@ -46,9 +47,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 In Vercel’s dashboard, be sure `Settings > Environment Variables > Automatically expose System Environment Variables` is checked so that `process.env.VERCEL_URL` is not undefined.
 
 ```ts
-import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
-import { PrepareLobe, isLambda, LobeModel } from "tfjs-node-lambda-helpers";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import axios from 'axios';
+import { PrepareLobe, isLambda, LobeModel } from 'tfjs-node-lambda-helpers';
 
 const baseUrl = isLambda()
   ? `https://${process.env.VERCEL_URL}`
@@ -58,20 +59,22 @@ const prepareLobe = PrepareLobe(`${baseUrl}/static/model`);
 let model: LobeModel;
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
   const lobe = await prepareLobe.next();
   if (!lobe.done) {
     return res.status(lobe.value.statusCode).json(lobe.value);
   } else {
-    model ?? (model = lobe.value);
+    if (!model) {
+      model = lobe.value;
+    }
   }
   const imageUrl = req.body.imageUrl;
 
   const response = await axios.get(imageUrl, {
-    responseType: "arraybuffer",
+    responseType: 'arraybuffer',
   });
   const results = model.predict(response.data);
 
@@ -92,3 +95,9 @@ Our goals:
 - Prevent Lambda from timing out on initial load
 
 Read the [source code](https://github.com/jlarmstrongiv/tfjs-node-lambda-helpers#readme).
+
+## Contributing
+
+We welcome contributions!
+
+†[tfjs-node-lambda-releases](https://www.npmjs.com/package/tfjs-node-lambda-releases) is soft deprecated. Due to file size limitations, 6 releases are too big to be published on npm. Use the assets on [GitHub Releases](https://github.com/jlarmstrongiv/tfjs-node-lambda/releases) instead.

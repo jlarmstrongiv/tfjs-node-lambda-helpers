@@ -21,7 +21,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!lobe.done) {
     return res.status(lobe.value.statusCode).json(lobe.value);
   } else {
-    model ?? (model = lobe.value);
+    if (!model) {
+      model = lobe.value;
+    }
   }
   const imageUrl = req.body.imageUrl;
 
