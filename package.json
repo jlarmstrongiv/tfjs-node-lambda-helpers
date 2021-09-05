@@ -34,7 +34,7 @@
     "test": "tsdx test"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.3",
     "fs-extra": "^9.0.1",
     "http-status-codes": "^2.1.4",
     "is-url": "^1.2.4"
