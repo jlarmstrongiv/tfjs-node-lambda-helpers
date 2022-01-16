@@ -36,7 +36,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "fs-extra": "^9.0.1",
-    "http-status-codes": "^2.1.4",
+    "http-status-codes": "^2.2.0",
     "is-url": "^1.2.4"
   },
   "devDependencies": {
